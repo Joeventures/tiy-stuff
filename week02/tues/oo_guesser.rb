@@ -13,14 +13,17 @@ class GuessingGame
     guess = Array.new
     number = rand(1..100)
     guess[0] = @player.get_guess()
+    guess[1] = 0
     count = 1
     until guess[0] == number
-      if guess[0] > number
-        result = "high"
-        puts "#{guess[0]} is Too High!"
+      diff1 = number - guess[0] > 0 ? number - guess[0] : guess[0] - number
+      diff2 = number - guess[1] > 0 ? number - guess[1] : guess[1] - number
+      if diff2 > diff1
+        result = "warmer"
+        puts "#{guess[0]} is closer than #{guess[1]}. Warmer!"
       else
-        result = "low"
-        puts "#{guess[0]} is Too Low!"
+        result = "colder"
+        puts "#{guess[0]} is further than #{guess[1]}. Colder!"
       end
       #binding.pry
       new_guess = @player.get_guess(result, guess)
@@ -34,7 +37,7 @@ end
 
 game = GuessingGame.new(CountingPlayer.new)
 smart = GuessingGame.new(SmartPlayer.new)
-smart.play
+#smart.play
 
 binding.pry
 
